@@ -6,9 +6,10 @@ import {Clock} from "./Clock";
 export class App extends React.Component {
     constructor(props) {
         super(props);
+        //definig state
         this.state = {
             clockVisible: true,
-            preciseMode: false
+            fullFormat: false
         }
     }
 
@@ -24,11 +25,19 @@ export class App extends React.Component {
         return(
             <main>
                 <div className="clock-panel">
-                    {this.state.clockVisible && <Clock preciseMode={this.state.preciseMode}/>}
+                    {this.state.clockVisible ? <Clock fullFormat={this.state.fullFormat}/>:
+                       
+                    <div class="clock">
+                         {/* hide text */}
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        </div>
+                    }
                 </div>
                 <div className="buttons">
                     <button className="btn" onClick={this.toggle('clockVisible')}>Toggle clock</button>
-                    <button className="btn" onClick={this.toggle('preciseMode')}>Toggle precise mode</button>
+                    <button className="btn" onClick={this.toggle('fullFormat')}>Toggle format</button>
                 </div>
 
             </main>

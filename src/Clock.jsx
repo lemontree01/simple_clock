@@ -7,21 +7,9 @@ export class Clock extends React.Component{
     }
 
     componentDidMount() {
-        this.startInterval()
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.preciseMode === prevProps.preciseMode) {
-            return
-        }
-        clearInterval(this.intervalID)
-        this.startInterval()
-    }
-
-    startInterval() {
         this.intervalID = setInterval(() => {
             this.setState({date: new Date()})
-        }, this.props.preciseMode ? 100 : 1000)
+        }, 1000)
     }
 
     componentWillUnmount() {
@@ -29,12 +17,24 @@ export class Clock extends React.Component{
     }
 
     render(){
-        return (
+        let hours = this.state.date.getHours();
+        return this.props.fullFormat ? 
+        (
             <div class="clock">
-                {this.props.preciseMode ?
-                        this.state.date.toISOString() :
-                        this.state.date.toLocaleTimeString()}
+                <div className="hours">{this.state.date.getHours()}</div>
+                
+                <div className="minutes">{this.state.date.getMinutes()}</div>
+                
+                <div className="seconds">{ this.state.date.getSeconds()}</div>
             </div>
-        );
+        ) :
+        (
+            <div class="clock">
+            <div className="hours">{hours > 12 ? hours - 12 : hours}{hours > 12 ? <div class="mini">PM</div> : <div class="mini">AM</div>}</div>
+            <div className="minutes">{this.state.date.getMinutes()}</div>
+            <div className="seconds">{ this.state.date.getSeconds()}</div>
+        </div>
+        )
+
     }
 }
